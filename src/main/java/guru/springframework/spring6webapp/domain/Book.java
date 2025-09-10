@@ -1,10 +1,11 @@
-package guru.springframework.Domain;
+package guru.springframework.spring6webapp.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.Set;
+import java.util.HashSet;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
@@ -21,7 +22,11 @@ public class Book {
 
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Author> authors;
+    private Set<Author> authors = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "publisher_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "publisher_id"))
+    private Set<Publisher> publishers = new HashSet<>();
 
     public Set<Author> getAuthors() {
         return authors;
@@ -29,6 +34,14 @@ public class Book {
 
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
+    }
+
+    public Set<Publisher> getPublishers() {
+        return publishers;
+    }
+    
+    public void setPublishers(Set<Publisher> publishers) {
+        this.publishers = publishers;
     }
 
     public Long getId() {
@@ -66,12 +79,14 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Book book = (Book) o;
-        return Objects.equals(id, book.id) && 
-               Objects.equals(title, book.title) && 
-               Objects.equals(isbn, book.isbn);
+        return Objects.equals(id, book.id) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(isbn, book.isbn);
     }
 
     @Override

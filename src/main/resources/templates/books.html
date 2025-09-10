@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Books</title>
+  </head>
+  <body>
+    <h1>Books</h1>
+    <table th:if="${books.size() > 0}">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ISBN</th>
+          <th>Title</th>
+          <th>Authors</th>
+          <th>Publishers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="book : ${books}">
+          <td th:text="${book.getId()}"></td>
+          <td th:text="${book.getIsbn()}"></td>
+          <td th:text="${book.getTitle()}"></td>
+          <td>
+            <span th:each="author : ${book.getAuthors()}">
+              <span
+                th:text="${author.getFirstName() + ' ' + author.getLastName()}"
+              ></span>
+            </span>
+          </td>
+          <td>
+            <span th:each="publisher : ${book.getPublishers()}">
+              <span
+                th:text="${publisher.getName() + ' ' + publisher.getCity() + ' ' + publisher.getCountry()}"
+              ></span>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p th:if="${books.size() == 0}">No books found</p>
+  </body>
+</html>
